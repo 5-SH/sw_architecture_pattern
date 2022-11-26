@@ -1,0 +1,181 @@
+[1. POSA 1권]
+	Broker 패턴
+		모든 데이터가 브로커를 통해서 통함
+		모든 데이터를 능동적으로 감시하려 할 때
+		일종의 감시자 역할
+		디코딩 인코딩 = 마샬링 언마샬링 전략 필요
+	
+	마스터 슬레이브 패턴(Primary - Secondary 패턴)
+		DB 에서 주로 사용
+		읽기 쓰기를 하나에서 하면 락이 걸림
+		마스터는 쓰기 슬레이브는 읽기 위주로 사용
+		마스터가 죽어버리면?
+	
+	Client-Dispatcher 패턴
+		클라이언트 프로토콜이 추가될 때 마다 서버에 핸들러(jar, dll)를 추가
+		Reactor/Proactor/Con-Acc 패턴으로 진화
+			Reactor : 데이터 형식, 규약이 추가, 수정되는 서버
+			Proactor : 고성능 서버
+			Con-Acc : 데이터 통식 규약이 추,가 수정되는 서버
+		
+	Forward-Receiver(P2P)
+		IPC, RPC 에서 주로 사용
+	
+	Publisher-Subscriber 패턴
+		다양한 subject 다루고 Subject 가 잘게 분리 안되어 있을 때 
+		클라이언트가 관심없는 내용까지 알려주는 문제가 있음
+		=> Event Channel(Filter)
+	
+	Event Channel
+		보안 이슈 등의 이유로
+			push push
+			push pull
+			pull push
+			pull pull
+		동작을 모두 고려해야 함
+	
+	Model-View-Controller 패턴
+		비즈니스 로직 - 컨트롤러
+		데이터 - 모델
+		화면 - 뷰
+		=> Data-Context-Interaction(DCI) 패턴으로 진화
+			데이터를 어떤 컨텍스트에서 어떻게 인터액션 할 것인지 염두에 두고 구현
+	
+	PAC 패턴
+		= 파워포인트
+			이미지를 누르면 이미지 관련 메뉴
+			텍스트 누르면 텍스트 관련 메뉴
+		다루고자 하는 데이터에 영향을 받아서 그것에 맞는 화면을 보여주는 것
+		시스템의 복잡도가 매우 높아진다
+	
+	Reflection 패턴
+		메터데이터에 따라서 런타임에 인스턴스를 생성, 변경
+		런타임 시에 인스턴스를 로드하기 떄문에 속도가 느리다
+			대신 BCI(Byte Code Instrumentation) 을 자주 사용함
+			
+	Blackboard 패턴
+		구현보단 개념적인 패턴으로 추상화 되어있음
+		대표적으로 AI 
+	
+	Counted Pointer(Refernece Count) 패턴
+		참조하고 있는 메모리에 올라간 인스턴스를 언제 내릴거냐
+		매번 객체를 new 하면 어렵기 때문에 기존의 인스턴스 활용 => 프로토타입 패턴
+			기존의 인스턴스 관리에 Counted Pointer 패턴 함께 자주 사용
+		멀티스레드 환경에서 count check 에 조심해야함
+		
+[2. POSA 2권]
+	POSA2 패턴의 4대 카테고리
+		서비스 접근 및 설정/제어
+		이벤트 핸들러	
+		동시성 제어	
+		동기화
+	
+	Wrapper Facade 패턴
+		wrapper : 비객체지향 적인 요소를 객체지향적으로 감싼다
+		
+	Component Configurator 패턴
+		런타임에 설정값으로 정의된 컴포넌트를 생성한다
+		=> DI 컨테이너, 오픈소스를 사용하지 직접 만들 필요는 없다
+	
+	Interceptor 패턴
+		데이터를 가로챔
+		filter 를 설정하거나 구현해 제공해야함
+		
+	Extension Interface 패턴
+		IUnknown 인터페이스
+		인터페이스에 대한 정보를 가지고 있는 메타 인터페이스를 가지고 있는 패턴
+		IUnknown 인터페이스에 요청이 몰리는 문제가 발생할 수 있음
+	
+	Reactor 패턴
+		서버 만드는데 사용
+		Handle 이 핵심
+			핸들의 핸들 테이블이 요청에 대한 핸들러를 매핑해서 관리함 <- 핵심
+			네트워크 서버의 디스패처를 만드는 패턴
+	
+	Proactor 패턴
+		윈도우를 OS 로 쓴다고 전재함(윈도우 에서만 지원)
+		네트워크, 파일 IO 가 많을 때 장점
+		IOCP
+			I/O 관련 요청은 커널에서 먼저 받아서 끝나면 큐에 넣고 Notification
+			유저 레벨과 커널 레벨 사이에 큐가 있음
+			=> 유저 레벨 블로킹이 없어 성능 향상
+		클라이언트에게 요청이 들어올 때
+			User level thread
+			Kernel level thread
+			유저 스레드가 IO 요청을 받고 커널 스레드에 요청을 전달
+			커널 스레드가 IO 동작하는 동안 유저 스레드는 블로킹 => 성능저하
+		=> 동일한 성능이라면 윈도우가 리눅스보다 1.7배 성능이 더 좋다
+			IOCP 로 최대 4배 까지 가능
+		IOCP vs EPOLL
+			IOCP
+				윈도우
+			EPOLL
+				리눅스
+				advanced 폴링
+		RIO(Registered I/O)
+			Kernel 레벨에서 사용한 데이터는 커널 영역의 메모리에 들어있다
+			IOCP 끝나고 Notification 해 유저 레벨에서 돌 때 커널 영역의 메모리에
+			있는 내용을 유저 영역의 메모리로 복사를 한다
+			메모리를 다이렉트로 사용해 유저 레벨과 커널 레벨에서 같은 메모리 영역을 사용한다
+				=> 메모리 복사가 필요 없음
+				=> 메모리 복사가 줄어 system call 이 줄어든다
+		=> 게임프로그래밍은 IOCP, RIO 를 지원하는 윈도우를 자주 사용
+		
+	Acceptor-Connector 패턴
+		리액터 패턴과 구조가 같음
+		프로토콜(HTTP, HTTP, TCP ...)을 독립 시킴
+		다양한 네트워크 프로토콜을 지원하기 위함
+		
+	Asynchronous Completion Token
+		비동기 처리를 위해 만듬
+		비동기 요청을 여러 군데에서 하면 응답을 받을때 요청 순서대로 받는다는 보장이 없음
+		요청 헤더에 토큰을 담아 보내고 응답은 요청에 대한 응답을 보낼때 헤더에 요청 헤더에 있는 토큰을 담아서 보냄
+		
+	Scoped Locking
+		c++ 에 종속적
+		생성자/소멸자에 락을 걸고, 해제하고 비즈니스 로직에 집중해라
+		크리티컬 섹션에 진입하고 해제할 때 자동으로 락을 걸고 해제하도록 하라
+		
+	Thread-Safe Interface 
+		스레드 safe 하고 아닌 부분을 분리해서 관리해라
+	
+	Double Checked Locking 이디엄
+		삼성전자 티비에 신입사원이 싱글톤 패턴을 넣었는데 티비가 저절로 꺼지는 문제
+		if(0 === instance__) 인스턴스가 있는지 확인하는 구문은
+			=> 저수준에서 compare, jump not equal 두 명령으로 나뉨
+		Double Checked Locking 을 해서 인스턴스 존재를 확인해라
+		
+	Active Object 패턴
+		요청과 실행을 분리하는 패턴
+		클라이언트가 요청하면 큐에 담기고 서버가 처리할 수 있을 만큼만 처리함
+		큐에 쌓인 요청을 워커 스레드들이 달라 붙어 가져감
+		메시지 큐와 같은 개념
+		메시지를 꺼내고 넣는 작업이 많아지면 rabbitMQ 나 카프카를 고려해야함
+		
+	Monitor Object 패턴
+		한 번에 하나의 객체만 실행하도록 보장
+		실행 순서를 보장
+		성능이 좋지 않음
+		
+	Half-Sync / Half-Async
+		Active Object 와 비슷한 개념
+		큐가 클때 주로 사용
+		
+	Leader/Follwer 패턴
+		미리 생성해서 주는 것 <- thread free, connection free
+		클라이언트의 요청에 풀의 자원을 공유해주는 boss thread 를 만들 수 있음
+		boss thread 는 스레드를 꺼내서 줌
+		thread pool 은 스레드 풀을 관리하는 watch dog 을 만듬
+			스레드 풀에 스레드가 모자라거나 많아지면 풀에 있는 스레드를 생성, 제거하는 역할
+		boss thread 나 thread pool 대신 
+			리더 스레드가 처리하고 다음 스레드가 리더가 되어 처리하고 그 과정을 계속
+			boss thread 나 watch dog 스레드가 죽으면 문제가 생기는 이슈가 없음
+			
+	Thread Specific Storage 패턴
+		스레드가 자기만 쓸 수 있는 전용 공간 만드는 패턴
+		스레드가 중첩되면...
+		메모리 아낄 수 있음
+		락킹이 사라져 성능이 좋아짐
+		
+	
+			

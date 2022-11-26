@@ -1,0 +1,52 @@
+[정적 분석 도구 이용하기]
+	클린코드를 만들기 위해 사용되는 지표
+	Instability/Abstractness Graph
+	DSM
+		각 패키지, 클래스가 다른 패키지나 클래스를 참조하는지 보고 순환참조인지 확인함
+		순환 참조를 잘라내기 위해 사용되는 지표
+	relation chart
+	Size of Component
+	Cyclomatic Complexity : 함수 내 분기문의 개수
+	Tangled : 역참조 갯수 / 전체 참조 갯수
+		역참조는 무조건 없어야한다.
+	CD, CCD, ACD
+		CD : 컴포넌트 디펜던시
+		CCD : 컴포넌트 디펜던시의 합
+		ACD : Average, CCD / Maximum CCD
+			순환이 발생하는 순간 100% 로 나옴
+			Maximum CCD = 컴포넌트 디펜던시 최대 값
+	LCOM
+		LCOM 낮으면 함수가 서로 필드 참조가 많음 -> 쪼개기 어렵다
+		LCOM 높으면 하나의 클래스를 두 개의 클래스로 나누는 것이 바람직함
+	DIT : 부모클래스 갯수
+	NOC : 자식클래스 갯수
+	RFC
+	MECE : 상호 배제지만 합치면 하나가 됨, Seperation of Concern
+		-> 역할과 책임을 잘 나눠가며 개발해야 한다
+
+[설계 철학 - 질서의 본질]
+	크기의 단계
+		MECE
+		나쁜 예) 안드로이드 패키지 구조
+		좋은 예) 스프링, 이클립스 패키지 구조
+	
+	강한 구심점
+		대표적인 역할
+			Information holder 
+			Structurer
+			Service provider
+			Coordinator
+			Controller
+			Interfacer
+		
+		역할 별로 패키지를 나누면 절대 안 됨
+		->비즈니스 시나리오 별로 나누고 그 안에 역할 별로 나눠야 함
+	
+	여백(void)
+		변화를 흡수할 수 있는 공간이 있어야한다
+		-> 인터페이스, 레이어, primitive 파라메터 대신 Object 파라메터 사용
+	
+	대칭적인 관계
+		일관성 있고 유사한 스텝을 가져야 함
+		-> 템플릿 메소드 패턴
+	
