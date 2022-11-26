@@ -4,11 +4,17 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.StringTokenizer;
 
-public class StreamSayHelloProtocol {
+public class StreamSayHelloHandler implements EventHandler {
 
   private static final int DATA_SIZE = 512;
   private static final int TOKEN_NUM = 2;
 
+  @Override
+  public String getHandler() {
+    return "0x5001";
+  }
+
+  @Override
   public void handleEvent(InputStream inputStream) {
     try {
       byte[] buffer = new byte[DATA_SIZE];
