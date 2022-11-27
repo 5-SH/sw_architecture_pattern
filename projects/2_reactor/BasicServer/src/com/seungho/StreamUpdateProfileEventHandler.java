@@ -4,14 +4,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.StringTokenizer;
 
-public class StreamSayHelloHandler implements EventHandler {
+public class StreamUpdateProfileEventHandler implements EventHandler {
 
-  private static final int DATA_SIZE = 512;
-  private static final int TOKEN_NUM = 2;
+  private static final int DATA_SIZE = 1024;
+  private static final int TOKEN_NUM = 5;
 
   @Override
   public String getHandler() {
-    return "0x5001";
+    return "0x6001";
   }
 
   @Override
@@ -30,13 +30,18 @@ public class StreamSayHelloHandler implements EventHandler {
         ++i;
       }
 
-      sayHello(params);
+      updateProfile(params);
     } catch (IOException e) {
       e.printStackTrace();
     }
   }
 
-  private void sayHello(String[] params) {
-    System.out.println("SayHello -> name : " + params[0] + " age : " + params[1]);
+  private void updateProfile(String[] params) {
+    System.out.println("UpdateProfile -> " +
+            " id :" + params[0] +
+            " password : " + params[1] +
+            " name : " + params[2] +
+            " age : " + params[3] +
+            " gender : " + params[4]);
   }
 }
