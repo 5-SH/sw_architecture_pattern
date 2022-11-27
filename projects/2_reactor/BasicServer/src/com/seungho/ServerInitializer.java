@@ -4,8 +4,6 @@ import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
 
 import java.io.File;
-import java.io.IOException;
-import java.net.ServerSocket;
 import java.util.List;
 
 public class ServerInitializer {
