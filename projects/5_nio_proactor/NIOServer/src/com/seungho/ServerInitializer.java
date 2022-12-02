@@ -9,13 +9,21 @@ import java.util.concurrent.Executors;
 
 public class ServerInitializer {
 
-  private static int PORT = 5000;
+  private static int PORT = 6000;
   private static int threadPoolSize = 8;
   private static int initialSize = 4;
   private static int backlog = 50;
 
   public static void main(String[] args) {
     System.out.println("SERVER START");
+
+    NioHandleMap handleMap = new NioHandleMap();
+
+    NioEventHandler sayHelloHandler = new NioSayHelloEventHandler();
+    NioEventHandler updateProfileHandler = new NioUpdateProfileEventHandler();
+
+    handleMap.put(sayHelloHandler.getHandle(), sayHelloHandler);
+    handleMap.put(updateProfileHandler.getHandle(), updateProfileHandler);
 
     // 고정 스레드 풀 생성 threadPoolSize 만큼의 스레드만 사용한다.
     ExecutorService executor = Executors.newFixedThreadPool(threadPoolSize);
@@ -30,7 +38,7 @@ public class ServerInitializer {
       listener.bind(new InetSocketAddress(PORT), backlog);
 
       // 접속의 결과를 CompletionHandler 으로 비동기 IO 작업에 콜백 형식으로 작업 결과를 받는다.
-      listener.accept(listener, new Dispatcher());
+      listener.accept(listener, new Dispatcher(handleMap));
     } catch (IOException e) {
       e.printStackTrace();
     }
