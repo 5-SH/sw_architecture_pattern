@@ -1,12 +1,9 @@
-package com.seungho;
+package com.seungho.proactor;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
-import java.nio.channels.AsynchronousChannel;
 import java.nio.channels.AsynchronousSocketChannel;
 import java.nio.channels.CompletionHandler;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
 
 public class Demultiplexer implements CompletionHandler<Integer, ByteBuffer> {
 

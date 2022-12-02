@@ -26,7 +26,7 @@ public class TestClient {
 
         socket2.close();
 
-        Thread.sleep(1000);
+        Thread.sleep(100);
       } catch (UnknownHostException e) {
         e.printStackTrace();
       } catch (IOException e) {

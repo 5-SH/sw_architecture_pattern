@@ -1,25 +1,25 @@
-package com.seungho;
+package com.seungho.proactor;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.AsynchronousSocketChannel;
 import java.util.StringTokenizer;
 
-public class NioUpdateProfileEventHandler implements NioEventHandler {
+public class NioSayHelloEventHandler implements NioEventHandler {
 
-  private static final int TOKEN_NUM = 5;
+  private static final int TOKEN_NUM = 2;
 
   private AsynchronousSocketChannel channel;
   private ByteBuffer buffer;
 
   @Override
   public String getHandle() {
-    return "0x6001";
+    return "0x5001";
   }
 
   @Override
   public int getDataSize() {
-    return 1024;
+    return 512;
   }
 
   @Override
@@ -49,7 +49,7 @@ public class NioUpdateProfileEventHandler implements NioEventHandler {
         i++;
       }
 
-      updateProfile(params);
+      sayHello(params);
 
       try {
         buffer.clear();
@@ -65,12 +65,7 @@ public class NioUpdateProfileEventHandler implements NioEventHandler {
 
   }
 
-  private void updateProfile(String[] params) {
-    System.out.println("UpdateProfile -> " +
-            " id :" + params[0] +
-            " password : " + params[1] +
-            " name : " + params[2] +
-            " age : " + params[3] +
-            " gender : " + params[4]);
+  private void sayHello(String[] params) {
+    System.out.println("SayHello -> name : " + params[0] + " age : " + params[1]);
   }
 }
